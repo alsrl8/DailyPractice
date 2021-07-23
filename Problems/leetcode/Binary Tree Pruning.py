@@ -26,4 +26,6 @@ class Solution:
 
     def pruneTree(self, root: TreeNode) -> TreeNode:
         self.search(root)
+        if root.val == 0 and not root.left and not root.right:
+            return None
         return root
