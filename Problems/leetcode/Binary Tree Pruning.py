@@ -7,38 +7,23 @@ class TreeNode:
 
 class Solution:
 
-    def search(self, node: TreeNode, nodes_to_be_removed: set) -> int:
+    def search(self, node: TreeNode) -> int:
         val = node.val
 
         if node.left:
-            val += self.search(node.left, nodes_to_be_removed)
-        if node.right:
-            val += self.search(node.right, nodes_to_be_removed)
+            leftVal = self.search(node.left)
+            if leftVal == 0:
+                node.left = None
+            val += leftVal
 
-        if val == 0:
-            nodes_to_be_removed.add(node)
+        if node.right:
+            rightVal = self.search(node.right)
+            if rightVal == 0:
+                node.right = None
+            val += rightVal
 
         return val
 
-    def remove(self, node: TreeNode, nodes_to_be_removed: set) -> None:
-        if node.left:
-            if nodes_to_be_removed.__contains__(node.left):
-                node.left = None
-            else:
-                self.remove(node.left, nodes_to_be_removed)
-        
-        if node.right:
-            if nodes_to_be_removed.__contains__(node.right):
-                node.right = None
-            else:
-                self.remove(node.right, nodes_to_be_removed)
-
     def pruneTree(self, root: TreeNode) -> TreeNode:
-        nodes_to_be_removed = set()
-        self.search(root, nodes_to_be_removed)
-
-        if nodes_to_be_removed.__contains__(root):
-            return None
-        
-        self.remove(root, nodes_to_be_removed)
+        self.search(root)
         return root
