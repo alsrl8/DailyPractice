@@ -16,3 +16,14 @@ class Solution:
                 dp[i][1] = dp[i-1][1]
         
         return min(dp[n-1][0], dp[n-1][1])
+    
+    def minFlipsMonoIncr_improved(self, s: str) -> int:
+        dp, c = 0, 0
+        
+        for num in s:
+            if num == "0":
+                dp = min(c, dp+1)
+            else:   # num == "1"
+                c += 1
+        
+        return dp
